@@ -143,6 +143,34 @@ void drawButtons() {
   textAlign(CENTER, CENTER);
   textSize(16);
   text("Save", 755, 25);
+  
+  // Undo Button
+  if (selectedButton == -6) {
+    fill(150);
+  } else if (hoveredButton == -6) {
+    fill(180);
+  } else {
+    fill(215);
+  }
+  ellipse(600, 25, 30, 30); // Move Undo button left
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text("<<", 600, 25); // Undo symbol
+  
+  // Load Button
+  if (selectedButton == -7) {
+    fill(150);
+  } else if (hoveredButton == -7) {
+    fill(180);
+  } else {
+    fill(215);
+  }
+  rect(630, 10, 80, 30, 5); // Position similar to Save button
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text("Load", 670, 25); // Load button text
 }
 
 void drawButton(int index, int x, color baseColor) {
@@ -241,6 +269,21 @@ void mousePressed() {
     selectedButton = -5;
     saveFrame("drawing.png");
   }
+  if (mouseY < 50 && mouseX > 585 && mouseX < 615) {
+    selectedTool = "UNDO";
+    selectedButton = -6;
+    if (Index > 0) {
+      Canvases.remove(Canvases.size() - 1);
+      Index--;
+      System.out.println(Index);
+      if (Index == 0) {
+        Canvases.remove(Canvases.size() - 1);
+        Canvases.add(createGraphics(1000, 650));
+      }
+    }
+    selectedTool = null;
+    selectedButton = -1;
+  }
 }
 
 void mouseHovered() {
@@ -260,17 +303,25 @@ void mouseHovered() {
     if (mouseY < 50 && mouseX > 800 && mouseX < 885) {
       hoveredButton = -4;
       if (!mousePressed) {
-        selectedTool = null;
-        selectedButton = -1;
+        if (selectedButton == -4) {
+          selectedButton = -1;
+          selectedTool = null;
+        }
       }
     }
     
     if (mouseY < 50 && mouseX > 715 && mouseX < 795) {
       hoveredButton = -5;
       if (!mousePressed) {
-        selectedTool = null;
-        selectedButton = -1;
+        if (selectedButton == -5) {
+          selectedButton = -1;
+          selectedTool = null;
+        }
       }
+    }
+    
+    if (mouseY < 50 && mouseX > 585 && mouseX < 615) {
+      hoveredButton = -6;
     }
 }
 
